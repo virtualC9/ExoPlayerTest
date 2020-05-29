@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#C5C4C4</color>
+    <color name="colorPrimaryDark">#3D3D3D</color>
+    <color name="colorAccent">#F3F2F2</color>
+    <color name="black">#000000</color>
+    <color name="buffered">#C9C8C8</color>
+    <color name="unplay">#818080</color>
+    <color name="white">#FFFFFF</color>
+    <color name="transparent">#00FFFFFF</color>
+    <color name="colorTitle">#292929</color>
+    <color name="searchBg">#F3F1F1</color>
+</resources>

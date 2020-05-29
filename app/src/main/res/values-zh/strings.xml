@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">轻TV</string>
+    <string name="action_settings">设置</string>
+    <string name="address_hint_str">请输入地址</string>
+</resources>

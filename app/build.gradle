@@ -1,0 +1,93 @@
+apply plugin: 'com.android.application'
+apply from: 'tinkerpatch.gradle'
+
+android {
+    compileSdkVersion 28
+    buildToolsVersion "28.0.3"
+    defaultConfig {
+        applicationId "com.z.exoplayertest"
+        minSdkVersion 21
+        targetSdkVersion 28
+        versionCode 100
+        versionName "1.0.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        ndk {
+            //设置支持的SO库架构
+            abiFilters 'armeabi' //, 'x86', 'armeabi-v7a', 'x86_64', 'arm64-v8a'
+        }
+        manifestPlaceholders = [
+                //A8DGQ9DCZ22H 属于应用"轻TV"独有的 Android AppKey, 用于配置SDK
+                MTA_APPKEY:"A8DGQ9DCZ22H",
+                //标注应用推广渠道用以区分新用户来源，可填写如应用宝，豌豆荚等
+                MTA_CHANNEL:"应用宝"
+        ]
+    }
+    // 签名配置【buildTypes中调用了signingConfigs，则signingConfigs{}要置于buildTypes{}前面】
+    signingConfigs {
+        release {
+            try {
+                storeFile file("key.jks")
+                storePassword "liu123456"
+                keyAlias "key0"
+                keyPassword "liu123456"
+            } catch (ex) {
+                throw new InvalidUserDataException(ex.toString())
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            signingConfig signingConfigs.release
+        }
+    }
+    compileOptions {
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    repositories {
+        google()
+        jcenter()
+    }
+
+    repositories {
+        flatDir {
+            dirs 'libs'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'com.google.android.material:material:1.1.0'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    implementation "com.google.android.exoplayer:exoplayer-core:${exoplayer_version}"
+    implementation "com.google.android.exoplayer:exoplayer-dash:${exoplayer_version}"
+    implementation "com.google.android.exoplayer:exoplayer-ui:${exoplayer_version}"
+    implementation "com.google.android.exoplayer:extension-rtmp:${exoplayer_version}"
+    implementation 'com.google.android.exoplayer:exoplayer-hls:2.10.1'
+    implementation files('libs\\bugly_crashreport_upgrade-1.4.2.aar')
+    //热修复
+    implementation("com.tinkerpatch.sdk:tinkerpatch-android-sdk:1.2.14.6")
+    //MTA主包
+    implementation 'com.qq.mta:mta:3.4.2'
+    //MID基础包
+    implementation 'com.tencent.mid:mid:3.73-release'
+//    implementation 'com.tencent.bugly:crashreport_upgrade:latest.release'
+//    implementation 'com.tencent.bugly:nativecrashreport:latest.release'
+//    implementation("com.google.android.exoplayer:extension-rtmp:${exoplayer_version}") {
+//        exclude group: 'net.butterflytv.utils', module: 'rtmp-client'
+//    }
+//    implementation "net.butterflytv.utils:rtmp-client:3.1.0"
+}
